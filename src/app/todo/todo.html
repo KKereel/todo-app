@@ -1,0 +1,51 @@
+<div class="todo-container">
+  <div class="input-section">
+    <input 
+      type="text" 
+      [(ngModel)]="newTask" 
+      [maxlength]="maxLength"
+      placeholder="Введите новую задачу"
+      (keyup.enter)="addTask()"
+    />
+    <button (click)="addTask()">Добавить</button>
+  </div>
+  <div class="counter">{{ newTask.length }}/{{ maxLength }}</div>
+
+  <!-- Активные задачи -->
+  <div *ngIf="activeTasks.length > 0">
+    <h3>Активные задачи</h3>
+    <ul class="task-list">
+      <li *ngFor="let task of activeTasks; let i = index" class="task-item">
+        <input 
+          type="checkbox" 
+          [checked]="task.completed"
+          (change)="toggleTask(tasks.indexOf(task))"
+          class="task-checkbox"
+        />
+        <span class="task-text">{{ task.text }}</span>
+        <button (click)="deleteTask(tasks.indexOf(task))" class="delete-btn">Удалить</button>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Выполненные задачи -->
+  <div *ngIf="completedTasks.length > 0" class="completed-section">
+    <h3>Выполненные задачи</h3>
+    <ul class="task-list">
+      <li *ngFor="let task of completedTasks" class="task-item completed">
+        <input 
+          type="checkbox" 
+          [checked]="task.completed"
+          (change)="toggleTask(tasks.indexOf(task))"
+          class="task-checkbox"
+        />
+        <span class="task-text">{{ task.text }}</span>
+        <button (click)="deleteTask(tasks.indexOf(task))" class="delete-btn">Удалить</button>
+      </li>
+    </ul>
+  </div>
+
+  <p *ngIf="tasks.length === 0" class="empty-message">
+    Задач пока нет. Добавьте первую!
+  </p>
+</div>
